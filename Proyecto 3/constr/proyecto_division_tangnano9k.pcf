@@ -1,0 +1,8 @@
+# Placeholder PCF for TangNano9k used by proyecto_division
+# Replace with actual pin mapping when targeting the board.
+
+# Example format (non-functional):
+# set_property PACKAGE_PIN W20 [get_ports {clk}]
+# set_property PACKAGE_PIN V10 [get_ports {rst_n}]
+
+// Generated to silence tools that require a constraints file

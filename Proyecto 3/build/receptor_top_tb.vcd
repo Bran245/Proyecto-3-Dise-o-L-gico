@@ -1,0 +1,373 @@
+$date
+	Tue Apr 14 17:18:22 2026
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module receptor_top_tb $end
+$var wire 7 ! seg_po [6:0] $end
+$var wire 4 " leds_po [3:0] $end
+$var reg 7 # i_pi [6:0] $end
+$var reg 1 $ sel_pi $end
+$scope module uut $end
+$var wire 7 % i_pi [6:0] $end
+$var wire 4 & leds_po [3:0] $end
+$var wire 1 $ sel_pi $end
+$var wire 3 ' sindrome [2:0] $end
+$var wire 7 ( seg_po [6:0] $end
+$var wire 3 ) pos_error [2:0] $end
+$var wire 4 * display_input [3:0] $end
+$var wire 4 + datos_corregidos [3:0] $end
+$scope module u_corrector $end
+$var wire 1 , es_sin_error $end
+$var wire 1 - hay_error $end
+$var wire 7 . i_pi [6:0] $end
+$var wire 3 / sindrome_pi [2:0] $end
+$var wire 3 0 pos_error_po [2:0] $end
+$var wire 7 1 palabra_corregida [6:0] $end
+$var wire 7 2 mascara [6:0] $end
+$var wire 4 3 datos_po [3:0] $end
+$upscope $end
+$scope module u_decodificador $end
+$var wire 7 4 i_pi [6:0] $end
+$var wire 3 5 sindrome_po [2:0] $end
+$upscope $end
+$scope module u_display $end
+$var wire 4 6 datos_pi [3:0] $end
+$var reg 7 7 seg_po [6:0] $end
+$upscope $end
+$scope module u_selector $end
+$var wire 4 8 datos_pi [3:0] $end
+$var wire 3 9 pos_error_pi [2:0] $end
+$var wire 1 $ sel_pi $end
+$var wire 4 : salida_po [3:0] $end
+$upscope $end
+$upscope $end
+$scope task test_receptor $end
+$var reg 7 ; palabra [6:0] $end
+$var reg 1 < sel $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+$end
+#0
+$dumpvars
+0<
+b1010010 ;
+b101 :
+b0 9
+b101 8
+b10010 7
+b101 6
+b0 5
+b1010010 4
+b101 3
+b0 2
+b1010010 1
+b0 0
+b0 /
+b1010010 .
+0-
+1,
+b101 +
+b101 *
+b0 )
+b10010 (
+b0 '
+b101 &
+b1010010 %
+0$
+b1010010 #
+b101 "
+b10010 !
+$end
+#10000
+b1000000 !
+b1000000 (
+b1000000 7
+b0 *
+b0 6
+b0 :
+1$
+1<
+#20000
+b1 2
+0,
+b1 )
+b1 0
+b1 9
+1-
+b10010 !
+b10010 (
+b10010 7
+b1 '
+b1 /
+b1 5
+b101 *
+b101 6
+b101 :
+b1010010 1
+0$
+b1010011 #
+b1010011 %
+b1010011 .
+b1010011 4
+0<
+b1010011 ;
+#30000
+b1111001 !
+b1111001 (
+b1111001 7
+b1 *
+b1 6
+b1 :
+1$
+1<
+#40000
+b100 2
+b11 )
+b11 0
+b11 9
+b10010 !
+b10010 (
+b10010 7
+b101 "
+b101 &
+b101 +
+b101 3
+b101 8
+b11 '
+b11 /
+b11 5
+b101 *
+b101 6
+b101 :
+b1010010 1
+0$
+b1010110 #
+b1010110 %
+b1010110 .
+b1010110 4
+0<
+b1010110 ;
+#50000
+b110000 !
+b110000 (
+b110000 7
+b11 *
+b11 6
+b11 :
+1$
+1<
+#60000
+1,
+0-
+b1010 "
+b1010 &
+b1010 +
+b1010 3
+b1010 8
+b0 2
+b0 )
+b0 0
+b0 9
+b1000 !
+b1000 (
+b1000 7
+b101101 1
+b1010 *
+b1010 6
+b1010 :
+b0 '
+b0 /
+b0 5
+0$
+b101101 #
+b101101 %
+b101101 .
+b101101 4
+0<
+b101101 ;
+#70000
+b1000000 !
+b1000000 (
+b1000000 7
+b0 *
+b0 6
+b0 :
+1$
+1<
+#80000
+b10000 2
+0,
+b101 )
+b101 0
+b101 9
+1-
+b1010 "
+b1010 &
+b1010 +
+b1010 3
+b1010 8
+b1000 !
+b1000 (
+b1000 7
+b101101 1
+b101 '
+b101 /
+b101 5
+b1010 *
+b1010 6
+b1010 :
+0$
+b111101 #
+b111101 %
+b111101 .
+b111101 4
+0<
+b111101 ;
+#90000
+b10010 !
+b10010 (
+b10010 7
+b101 *
+b101 6
+b101 :
+1$
+1<
+#100000
+1,
+0-
+b1111 "
+b1111 &
+b1111 +
+b1111 3
+b1111 8
+b0 2
+b0 )
+b0 0
+b0 9
+b1110 !
+b1110 (
+b1110 7
+b1111111 1
+b1111 *
+b1111 6
+b1111 :
+b0 '
+b0 /
+b0 5
+0$
+b1111111 #
+b1111111 %
+b1111111 .
+b1111111 4
+0<
+b1111111 ;
+#110000
+b1000000 !
+b1000000 (
+b1000000 7
+b0 *
+b0 6
+b0 :
+1$
+1<
+#120000
+0,
+b1111 "
+b1111 &
+b1111 +
+b1111 3
+b1111 8
+b1000000 2
+b111 )
+b111 0
+b111 9
+1-
+b1110 !
+b1110 (
+b1110 7
+b1111111 1
+b1111 *
+b1111 6
+b1111 :
+b111 '
+b111 /
+b111 5
+0$
+b111111 #
+b111111 %
+b111111 .
+b111111 4
+0<
+b111111 ;
+#130000
+b1111000 !
+b1111000 (
+b1111000 7
+b111 *
+b111 6
+b111 :
+1$
+1<
+#140000
+1,
+0-
+b0 2
+b0 )
+b0 0
+b0 9
+b0 "
+b0 &
+b0 +
+b0 3
+b0 8
+b1000000 !
+b1000000 (
+b1000000 7
+b0 1
+b0 '
+b0 /
+b0 5
+b0 *
+b0 6
+b0 :
+0$
+b0 #
+b0 %
+b0 .
+b0 4
+0<
+b0 ;
+#150000
+b1000 2
+0,
+b100 )
+b100 0
+b100 9
+1-
+b100 '
+b100 /
+b100 5
+b0 1
+b1000 #
+b1000 %
+b1000 .
+b1000 4
+b1000 ;
+#160000
+b11001 !
+b11001 (
+b11001 7
+b100 *
+b100 6
+b100 :
+1$
+1<
+#170000

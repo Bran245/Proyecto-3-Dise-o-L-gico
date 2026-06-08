@@ -1,0 +1,8 @@
+# Placeholder constraints para 'proyecto_division'
+# Reemplazar con el mapeo real de pines cuando vaya a sintetizar/programar
+# Formato simple: nombre_de_pin PIN
+# Ejemplo (no activo):
+# clk    PIN_1
+# rst_n  PIN_2
+
+// Archivo placeholder generado automáticamente para uso local
