@@ -40,11 +40,11 @@ https://github.com/Bran245/Proyecto-3-Dise-o-L-gico/blob/dc16a19ec5eb1eee7d3ceb6
 ![Division](https://github.com/Bran245/Proyecto-3-Dise-o-L-gico/blob/d678c44a781851f90d964f537b757af369ff9a84/SUBSISTEMA%20DE%20DIVISION.jpeg)
 
 ### 2.2 Diagrama de bloques de subsistema de lectura 
-
+![Lectura](https://github.com/Bran245/Proyecto-3-Dise-o-L-gico/blob/5a03f0a52945ce3f36ad79c58fb5cd426defacd9/subsistema%20de%20lecura.jpeg)
 ### 2.3 Diagrama de bloques de subsistemade display 
 
 ## 3 Diagramas de las FSM 
 
 ### 3.1 FSM de división 
-![DIVISION](https://github.com/Bran245/Proyecto-3-Dise-o-L-gico/blob/fe98cec8d6d57a42e2ec9f989af0ea48f7ebefec/FSM%20DE%20DIVISION.jpeg)
+![Division](https://github.com/Bran245/Proyecto-3-Dise-o-L-gico/blob/fe98cec8d6d57a42e2ec9f989af0ea48f7ebefec/FSM%20DE%20DIVISION.jpeg)
 ### 3.2 FSM de lectura 
