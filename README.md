@@ -37,7 +37,7 @@ Internamente, un controlador recibe los dígitos BCD del cociente y del residuo,
 
 https://github.com/Bran245/Proyecto-3-Dise-o-L-gico/blob/dc16a19ec5eb1eee7d3ceb61d16613404f0bdf40/SISTEMA%20DE%20BLOQUES.jpeg
 ### 2.1 Diagrama de bloques de subsistema de división
-Poner foto
+![Division](https://github.com/Bran245/Proyecto-3-Dise-o-L-gico/blob/d678c44a781851f90d964f537b757af369ff9a84/SUBSISTEMA%20DE%20DIVISION.jpeg)
 
 ### 2.2 Diagrama de bloques de subsistema de lectura 
 
