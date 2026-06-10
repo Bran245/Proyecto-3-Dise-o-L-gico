@@ -46,5 +46,5 @@ Poner foto
 ## 3 Diagramas de las FSM 
 
 ### 3.1 FSM de división 
-
+![DIVISION](https://github.com/Bran245/Proyecto-3-Dise-o-L-gico/blob/fe98cec8d6d57a42e2ec9f989af0ea48f7ebefec/FSM%20DE%20DIVISION.jpeg)
 ### 3.2 FSM de lectura 
