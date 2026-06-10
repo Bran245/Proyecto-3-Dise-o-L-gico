@@ -33,7 +33,7 @@ Su función es mostrar en los displays físicos el cociente o el residuo de la d
 Internamente, un controlador recibe los dígitos BCD del cociente y del residuo, y según el estado de una señal de selección (toggle activado por un botón dedicado) elige cuál de los dos resultados enviar al multiplexor de display. El multiplexor activa los displays de forma rotativa a aproximadamente 1 kHz por dígito, frecuencia suficiente para eliminar el parpadeo visible. En cada turno, el dígito BCD activo pasa por un decodificador que genera las 7 señales de segmento en lógica activo-bajo. El botón de selección pasa por el mismo proceso de sincronización y debounce que el teclado, garantizando que no genere transiciones espurias.
 
 ## 2 Diagrama de bloques de los subsistemas 
-![Diagrama 1]([[https://github.com/Bran245/Proyecto-2-de-dise-o-logico/raw/main/EL-3307_template/3.jpeg](https://github.com/Bran245/Proyecto-3-Dise-o-L-gico/blob/19394649e3982aa651a71366f9c914c3421d51eb/DIAGRAMAS/SISTEMA%20DE%20BLOQUES.jpeg)](https://github.com/Bran245/Proyecto-3-Dise-o-L-gico/blob/73f703d21767500867613121ee115148b4e19c17/SISTEMA%20DE%20BLOQUES.jpeg))
+![Diagrama 1]([[https://github.com/Bran245/Proyecto-2-de-dise-o-logico/raw/main/EL-3307_template/.jpeg)
 ### 2.1 Diagrama de bloques de subsistema de división
 Poner foto
 
