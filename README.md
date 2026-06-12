@@ -48,3 +48,117 @@ https://github.com/Bran245/Proyecto-3-Dise-o-L-gico/blob/dc16a19ec5eb1eee7d3ceb6
 ### 3.1 FSM de división 
 ![Division](https://github.com/Bran245/Proyecto-3-Dise-o-L-gico/blob/fe98cec8d6d57a42e2ec9f989af0ea48f7ebefec/FSM%20DE%20DIVISION.jpeg)
 ### 3.2 FSM de lectura 
+
+## 4. Simulación funcional del sistema completo
+
+La simulación funcional del módulo `div_pipeline` se realizó en EDA Playground utilizando Icarus Verilog 12.0 con SystemVerilog. El testbench aplica 13 casos de prueba que cubren tanto los requisitos base (dividendo hasta 63, divisor hasta 15) como los del puntaje extra (dividendo hasta 127, divisor hasta 31).
+El protocolo de simulación por cada caso es el siguiente:
+1. En un flanco negativo de reloj se presentan `A`, `B` y `valid=1`.
+2. En el siguiente flanco negativo se baja `valid=0`.
+3. Se espera exactamente 7 ciclos de reloj (latencia fija del pipeline con `A_BITS=7`).
+4. Se verifican `Q` y `R` contra los valores esperados.
+Los resultados obtenidos se muestran en la siguiente imagen, en la cual, se evidencia como el sistema es capaz de realizar la división solicitada en su estado base, asi como la de los punto extra:
+
+(Aqui va la foto de la simulación) 
+
+El flujo de datos completo en hardware sigue la siguiente secuencia:
+
+1. El usuario ingresa el dividendo A dígito por dígito mediante el teclado 4×4 y confirma con `#`.
+2. El usuario ingresa el divisor B y confirma con `#`.
+3. El módulo `top` activa `valid=1` por un ciclo, enviando A y B al `div_pipeline`.
+4. Tras 7 ciclos de reloj el pipeline produce `done=1`, `Q` y `R` estables.
+5. El módulo `top` captura Q y R en registros de salida.
+6. El módulo `binary_to_bcd` convierte Q y R a BCD.
+7. El `display_7seg` muestra el cociente por defecto; presionando `#` alterna al residuo.
+
+---
+
+## 5. Análisis de consumo de recursos y potencia
+
+> **Nota:** Los siguientes valores deben completarse con los reportes generados por la herramienta de síntesis para la TangNano 9k.
+
+| Recurso | Utilizado | Disponible | Porcentaje |
+|---------|-----------|------------|------------|
+| LUTs | — | 8640 | — |
+| Flip-Flops | — | 6480 | — |
+| Bloques de RAM | — | 26 | — |
+| DSPs | — | 20 | — |
+
+**Consumo de potencia estimado:**
+
+| Dominio | Potencia (mW) |
+|---------|---------------|
+| Lógica combinacional | — |
+| Registros (pipeline) | — |
+| I/O | — |
+| **Total** | — |
+
+Se espera un consumo moderado dado que el diseño es completamente síncrono con un único dominio de reloj de 27 MHz, sin bloques de memoria ni DSPs dedicados. El pipeline de `A_BITS=7` etapas introduce registros adicionales para propagar B, A, Q parcial y valid a través de cada etapa, lo que incrementa el uso de flip-flops respecto a una implementación combinacional pura.
+
+---
+
+## 6. Velocidad máxima de reloj
+
+> **Nota:** Los siguientes valores deben completarse con el reporte de timing de la herramienta de síntesis.
+
+El diseño fue desarrollado para operar a la frecuencia de referencia de la TangNano 9k de **27 MHz**. La ruta crítica del sistema se encuentra dentro de cada fila del divisor (`div_row`), específicamente en la cadena de acarreo de las `B_BITS+1` celdas `div_cell`.
+
+Con `B_BITS=5` se tienen 6 celdas en serie por fila. Al introducir el pipeline entre filas se corta la propagación de acarreo entre filas, reduciendo la ruta crítica a una sola fila en lugar de las `A_BITS=7` filas completas.
+
+| Métrica | Valor |
+|---------|-------|
+| Frecuencia de operación objetivo | 27 MHz |
+| Período objetivo | 37.04 ns |
+| Slack reportado (post P&R) | — |
+| Frecuencia máxima alcanzada | — |
+
+Se espera que la frecuencia máxima supere los 27 MHz dado que el pipeline reduce significativamente la ruta crítica respecto a la implementación combinacional original.
+
+---
+
+## 7. Problemas encontrados y soluciones aplicadas
+
+Durante el desarrollo del proyecto se identificaron y resolvieron los siguientes problemas:
+
+**Problema 1 — Doble escritura a un mismo registro en `always_ff`**
+
+En la primera versión de `div_pipeline`, el bit del cociente se intentaba insertar en el vector `q_pipe` mediante dos asignaciones separadas dentro del mismo bloque `always_ff`:
+
+```systemverilog
+q_pipe[s+1]             <= q_pipe[s];
+q_pipe[s+1][A_BITS-1-s] <= q_row[s];
+```
+
+Esto es ilegal en SystemVerilog. La solución fue construir el valor combinacionalmente primero con una señal intermedia `q_next` y luego registrarlo con una sola asignación:
+
+```systemverilog
+always_comb begin
+    q_next[s]             = q_pipe[s];
+    q_next[s][A_BITS-1-s] = q_row[s];
+end
+always_ff @(posedge clk)
+    q_pipe[s+1] <= q_next[s];
+```
+
+**Problema 2 — Pérdida del MSB en el shift interno de `div_row`**
+
+En la versión original el residuo desplazado se truncaba a `B_BITS` bits, lo que funcionaba para `B_BITS=4` pero producía resultados incorrectos para `B_BITS=5` en casos como 100÷31. La solución fue agregar una celda extra con `B=0` que maneja el bit adicional del shift:
+
+```systemverilog
+logic [B_BITS:0] R_sh;
+assign R_sh = {R_in, A_bit};  // B_BITS+1 bits, sin truncar
+```
+
+**Problema 3 — Conflicto de nombres en Icarus Verilog**
+
+Los puertos `R` y `B` de `div_cell` colisionaban con señales del mismo nombre en el testbench. La solución fue renombrar los puertos internos a `R_in_bit`, `B_in_bit` y `B_in`.
+
+**Problema 4 — `assign` a arrays con `always_ff` en Icarus**
+
+Icarus no permite que un array sea manejado simultáneamente por `assign` y `always_ff`. La solución fue separar las entradas de la etapa 0 en señales individuales con `always_comb` y declarar los arrays solo desde el índice 1 en adelante.
+
+
+
+
+
+
