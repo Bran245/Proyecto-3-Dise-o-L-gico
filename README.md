@@ -59,7 +59,7 @@ El protocolo de simulación por cada caso es el siguiente:
 4. Se verifican `Q` y `R` contra los valores esperados.
 Los resultados obtenidos se muestran en la siguiente imagen, en la cual, se evidencia como el sistema es capaz de realizar la división solicitada en su estado base, asi como la de los punto extra:
 
-[(Test) ](https://github.com/Bran245/Proyecto-3-Dise-o-L-gico/blob/4be0083887694ac75d99fd146e8b16b35689cde5/test.jpeg)
+![Test](https://github.com/Bran245/Proyecto-3-Dise-o-L-gico/blob/4be0083887694ac75d99fd146e8b16b35689cde5/test.jpeg)
 
 El flujo de datos completo en hardware sigue la siguiente secuencia:
 
