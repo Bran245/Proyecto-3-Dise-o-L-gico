@@ -48,7 +48,7 @@ Internamente, un controlador recibe los dígitos BCD del cociente y del residuo,
 ### 3.1 FSM de división 
 ![Division](https://github.com/Bran245/Proyecto-3-Dise-o-L-gico/blob/fe98cec8d6d57a42e2ec9f989af0ea48f7ebefec/FSM%20DE%20DIVISION.jpeg)
 ### 3.2 FSM de lectura 
-
+![FSM Lectura](https://github.com/Bran245/Proyecto-3-Dise-o-L-gico/blob/f9353112d4b6452476164b13a19cb9ff69fbf37e/FSM%20Lectura.jpeg)
 ## 4. Simulación funcional del sistema completo
 
 La simulación funcional del módulo `div_pipeline` se realizó en EDA Playground utilizando Icarus Verilog 12.0 con SystemVerilog. El testbench aplica 13 casos de prueba que cubren tanto los requisitos base (dividendo hasta 63, divisor hasta 15) como los del puntaje extra (dividendo hasta 127, divisor hasta 31).
