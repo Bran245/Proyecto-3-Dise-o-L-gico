@@ -42,7 +42,7 @@ Internamente, un controlador recibe los dígitos BCD del cociente y del residuo,
 ### 2.2 Diagrama de bloques de subsistema de lectura 
 ![Lectura](https://github.com/Bran245/Proyecto-3-Dise-o-L-gico/blob/5a03f0a52945ce3f36ad79c58fb5cd426defacd9/subsistema%20de%20lecura.jpeg)
 ### 2.3 Diagrama de bloques de subsistemade display 
-
+![Display](https://github.com/Bran245/Proyecto-3-Dise-o-L-gico/blob/55dd8076a3f82dac0ca4be6cb5228f83864d53ed/Subsistema%20Display.jpeg)
 ## 3 Diagramas de las FSM 
 
 ### 3.1 FSM de división 
