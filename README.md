@@ -1,4 +1,4 @@
-# Proyecto Corto III: Diseño Digital Sincrónico en HDL (No se si hay que cambiar el titulo) 
+# Proyecto Corto III: División de enteros
 
 **EL-3307 Diseño Lógico — I Semestre 2026**  
 **Escuela de Ingeniería Electrónica, TEC**
@@ -129,45 +129,25 @@ El tiempo total de Place & Route fue aproximadamente 30.16 segundos (HeAP + SA +
 
 ## 7. Problemas encontrados y soluciones aplicadas
 
+## 7. Problemas encontrados y soluciones aplicadas
+
 Durante el desarrollo del proyecto se identificaron y resolvieron los siguientes problemas:
 
-**Problema 1 — Doble escritura a un mismo registro en `always_ff`**
+**Problema 1 — Conversor BCD incorrecto**
 
-En la primera versión de `div_pipeline`, el bit del cociente se intentaba insertar en el vector `q_pipe` mediante dos asignaciones separadas dentro del mismo bloque `always_ff`:
+El conversor binario a BCD original producía resultados incorrectos en la representación decimal. El problema radicaba en que no separaba correctamente las centenas, decenas y unidades del valor binario de entrada. Se sustituyó por una implementación del algoritmo double-dabble que opera correctamente sobre los tres dígitos decimales, garantizando una conversión precisa para todos los valores del rango soportado.
 
-```systemverilog
-q_pipe[s+1]             <= q_pipe[s];
-q_pipe[s+1][A_BITS-1-s] <= q_row[s];
-```
+**Problema 2 — Condición de carrera en la FSM de control**
 
-Esto es ilegal en SystemVerilog. La solución fue construir el valor combinacionalmente primero con una señal intermedia `q_next` y luego registrarlo con una sola asignación:
+Se presentaba una situación en la que la lógica combinacional de la FSM terminaba de evaluar su estado actual mientras la siguiente etapa del datapath ya estaba solicitando datos, generando un conflicto entre ambas. Esto provocaba que operaciones como la división no se ejecutaran correctamente. La solución fue introducir una bandera de control (`valid/calcular`) que sincroniza el momento exacto en que los operandos son válidos y la división debe iniciarse, eliminando la ambigüedad entre el fin de la evaluación combinacional y el inicio del cálculo.
 
-```systemverilog
-always_comb begin
-    q_next[s]             = q_pipe[s];
-    q_next[s][A_BITS-1-s] = q_row[s];
-end
-always_ff @(posedge clk)
-    q_pipe[s+1] <= q_next[s];
-```
+**Problema 3 — Ausencia de transistores BJT en el manejo del display**
 
-**Problema 2 — Pérdida del MSB en el shift interno de `div_row`**
+Inicialmente los segmentos del display de 7 segmentos se conectaron directamente desde los pines de la FPGA, lo cual no es adecuado por las limitaciones de corriente de los pines. Se implementaron transistores BJT como etapa de potencia entre la FPGA y el display, tal como lo especifica el enunciado del proyecto, permitiendo el manejo correcto de la corriente necesaria para cada segmento.
 
-En la versión original el residuo desplazado se truncaba a `B_BITS` bits, lo que funcionaba para `B_BITS=4` pero producía resultados incorrectos para `B_BITS=5` en casos como 100÷31. La solución fue agregar una celda extra con `B=0` que maneja el bit adicional del shift:
+**Problema 4 — Visualización incorrecta del dígito 3 en la entrada de B (no resuelto)**
 
-```systemverilog
-logic [B_BITS:0] R_sh;
-assign R_sh = {R_in, A_bit};  // B_BITS+1 bits, sin truncar
-```
-
-**Problema 3 — Conflicto de nombres en Icarus Verilog**
-
-Los puertos `R` y `B` de `div_cell` colisionaban con señales del mismo nombre en el testbench. La solución fue renombrar los puertos internos a `R_in_bit`, `B_in_bit` y `B_in`.
-
-**Problema 4 — `assign` a arrays con `always_ff` en Icarus**
-
-Icarus no permite que un array sea manejado simultáneamente por `assign` y `always_ff`. La solución fue separar las entradas de la etapa 0 en señales individuales con `always_comb` y declarar los arrays solo desde el índice 1 en adelante.
-
+Al ingresar el dígito `3` como parte del divisor B, el display lo muestra visualmente como `67`. Este es un problema exclusivo de la representación en el display — el valor que efectivamente llega al divisor es el correcto (`3`), por lo que los cálculos no se ven afectados.
 
 
 
