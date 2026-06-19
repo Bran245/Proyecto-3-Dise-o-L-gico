@@ -75,16 +75,25 @@ El flujo de datos completo en hardware sigue la siguiente secuencia:
 
 ## 5. Análisis de consumo de recursos y potencia
 
-> **Nota:** Los siguientes valores deben completarse con los reportes generados por la herramienta de síntesis para la TangNano 9k.
+Los resultados de utilización de recursos reportados por Yosys para el dispositivo GW1NR-9C son los siguientes:
 
-| Recurso | Utilizado | Disponible | Porcentaje |
-|---------|-----------|------------|------------|
-| LUTs | — | 8640 | — |
-| Flip-Flops | — | 6480 | — |
-| Bloques de RAM | — | 26 | — |
-| DSPs | — | 20 | — |
+| Recurso | Cantidad |
+|---------|----------|
+| Wires totales | 1505 |
+| Wire bits totales | 3569 |
+| Celdas totales | 1926 |
+| Flip-Flops totales (DFFC + DFFCE + DFFP + DFFR) | 316 |
+| LUTs totales (LUT1 + LUT2 + LUT3 + LUT4) | 1016 |
+| ALUs | 336 |
+| Multiplexores (MUX2_LUT5/6/7/8) | 229 |
+| Buffers de entrada (IBUF) | 6 |
+| Buffers de salida (OBUF) | 21 |
 
-**Consumo de potencia estimado:**
+El número elevado de ALUs refleja la naturaleza aritmética del diseño, donde cada celda `div_cell` del pipeline instancia operaciones de suma. Los 316 flip-flops corresponden principalmente a los registros del pipeline de división, la FSM del teclado, los latches de resultado y los registros del display.
+
+**Consumo de potencia:**
+
+> **Nota:** Completar con el reporte de potencia de la herramienta Gowin.
 
 | Dominio | Potencia (mW) |
 |---------|---------------|
@@ -92,11 +101,7 @@ El flujo de datos completo en hardware sigue la siguiente secuencia:
 | Registros (pipeline) | — |
 | I/O | — |
 | **Total** | — |
-
-Se espera un consumo moderado dado que el diseño es completamente síncrono con un único dominio de reloj de 27 MHz, sin bloques de memoria ni DSPs dedicados. El pipeline de `A_BITS=7` etapas introduce registros adicionales para propagar B, A, Q parcial y valid a través de cada etapa, lo que incrementa el uso de flip-flops respecto a una implementación combinacional pura.
-
 ---
-
 ## 6. Velocidad máxima de reloj
 
 El diseño fue desarrollado para operar a la frecuencia de referencia de la TangNano 9k de **27 MHz**, sobre el dispositivo **GW1NR-9C (QFN88P, C6/I5)**. La ruta crítica del sistema se encuentra dentro de cada fila del divisor (`div_row`), específicamente en la cadena de acarreo de las `B_BITS+1` celdas `div_cell`.
