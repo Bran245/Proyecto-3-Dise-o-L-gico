@@ -93,15 +93,14 @@ El número elevado de ALUs refleja la naturaleza aritmética del diseño, donde 
 
 **Consumo de potencia:**
 
-> **Nota:** Completar con el reporte de potencia de la herramienta Gowin.
-
 | Dominio | Potencia (mW) |
 |---------|---------------|
-| Lógica combinacional | — |
-| Registros (pipeline) | — |
-| I/O | — |
-| **Total** | — |
+| FPGA (lógica interna) | ≈ 140 |
+| Pines I/O | ≈ 80 |
+| **Total** | **≈ 220** |
+
 ---
+
 ## 6. Velocidad máxima de reloj
 
 El diseño fue desarrollado para operar a la frecuencia de referencia de la TangNano 9k de **27 MHz**, sobre el dispositivo **GW1NR-9C (QFN88P, C6/I5)**. La ruta crítica del sistema se encuentra dentro de cada fila del divisor (`div_row`), específicamente en la cadena de acarreo de las `B_BITS+1` celdas `div_cell`.
