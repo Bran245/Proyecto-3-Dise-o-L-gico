@@ -99,20 +99,31 @@ Se espera un consumo moderado dado que el diseño es completamente síncrono con
 
 ## 6. Velocidad máxima de reloj
 
-> **Nota:** Los siguientes valores deben completarse con el reporte de timing de la herramienta de síntesis.
+El diseño fue desarrollado para operar a la frecuencia de referencia de la TangNano 9k de **27 MHz**, sobre el dispositivo **GW1NR-9C (QFN88P, C6/I5)**. La ruta crítica del sistema se encuentra dentro de cada fila del divisor (`div_row`), específicamente en la cadena de acarreo de las `B_BITS+1` celdas `div_cell`.
 
-El diseño fue desarrollado para operar a la frecuencia de referencia de la TangNano 9k de **27 MHz**. La ruta crítica del sistema se encuentra dentro de cada fila del divisor (`div_row`), específicamente en la cadena de acarreo de las `B_BITS+1` celdas `div_cell`.
+Con `B_BITS=5` se tienen 6 celdas en serie por fila, cada una compuesta por un sumador de 1 bit. Al introducir el pipeline entre filas se corta la propagación de acarreo entre filas, reduciendo la ruta crítica a una sola fila en lugar de las `A_BITS=7` filas completas.
 
-Con `B_BITS=5` se tienen 6 celdas en serie por fila. Al introducir el pipeline entre filas se corta la propagación de acarreo entre filas, reduciendo la ruta crítica a una sola fila en lugar de las `A_BITS=7` filas completas.
+Durante la síntesis se detectó inicialmente un fallo de timing en `display_7seg` (26.21 MHz antes del fix), causado por la ruta combinacional larga desde `binary_to_bcd` → lógica de blanking → selección de segmentos. Se resolvió registrando las entradas `dig3..dig0` y `enable` al inicio del módulo, cortando esa ruta en dos ciclos separados.
+
+Los resultados del análisis de timing post Place & Route (PnR) con la herramienta Gowin son:
 
 | Métrica | Valor |
 |---------|-------|
-| Frecuencia de operación objetivo | 27 MHz |
+| Dispositivo | GW1NR-9C (QFN88P, C6/I5) |
+| Frecuencia objetivo | 27.00 MHz |
 | Período objetivo | 37.04 ns |
-| Slack reportado (post P&R) | — |
-| Frecuencia máxima alcanzada | — |
+| Frecuencia máxima post-placement | 40.73 MHz (PASS) |
+| Frecuencia máxima post-routing | 48.46 MHz (PASS) |
+| Ruta crítica post-placement (lógica) | 10.8 ns |
+| Ruta crítica post-placement (routing) | 9.8 ns |
+| Ruta crítica post-routing (lógica) | 9.8 ns |
+| Ruta crítica post-routing (routing) | 9.1 ns |
+| Slack (todos los endpoints) | Positivo |
+| Restricciones de timing | Todas PASS |
 
-Se espera que la frecuencia máxima supere los 27 MHz dado que el pipeline reduce significativamente la ruta crítica respecto a la implementación combinacional original.
+El diseño supera el objetivo de 27 MHz con un margen considerable — **48.46 MHz post-routing**, lo que representa un margen del 79% sobre la frecuencia requerida. Todos los histogramas de slack reportados fueron positivos, confirmando que no existe ninguna violación de timing en el diseño final.
+
+El tiempo total de Place & Route fue aproximadamente 30.16 segundos (HeAP + SA + Router1).
 
 ---
 
